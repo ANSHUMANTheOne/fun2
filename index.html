@@ -1,23 +1,103 @@
-<!DOCTYPE html>
 <html>
 
 <head>
+
 <title>Reaction Game</title>
+
 </head>
 
 <body>
 
-<h2>Reaction time Game</h2>
+<h1>REACTION GAME</h1>
 
-<p>click the box when it says CLICK</p>
+<h3>test your skills!</h3>
 
-<div id="box">click to start</div>
+<p>Click the box as FAST as you can!</p>
+
+<p>Wait for the box to appear and then CLICK IT. Do note it will be random :D</p>
+
+<button onclick="
+document.getElementById('box').style.display='none';
+
+document.getElementById('result').innerHTML='Get ready...';
+
+setTimeout(function() {
+
+document.getElementById('box').style.display='block';
+
+document.getElementById('box').style.left=Math.random()*500+'px';
+
+document.getElementById('box').style.top=Math.random()*280+'px';
+
+startTime=new Date().getTime();
+
+}, Math.random()*2000+1000);
+">
+
+START GAME
+
+</button>
+
+
+<div id="game"
+style="width:600px;height:350px;border:3px solid black;margin-top:20px;position:relative;background:#eeeeee;">
+
+<div id="box"
+style="width:60px;height:60px;background:red;position:absolute;display:none;"
+onclick="
+
+time=new Date().getTime()-startTime;
+
+document.getElementById('result').innerHTML='Your time: '+time+' ms';
+
+document.getElementById('box').style.display='none';
+
+attempts=attempts+1;
+
+document.getElementById('attempt').innerHTML='Attempts: '+attempts;
+
+if(time<best) {
+
+best=time;
+
+document.getElementById('bestresult').innerHTML='BEST TIME: '+best+' ms';
+
+}
+
+">
+
+</div>
+
+</div>
+
 
 <p id="result">Your time:</p>
 
-<p id="best">best time:</p>
+<p id="bestresult">best time:</p>
+
+<p id="attempt">Attempts: 0</p>
+
+
+<h3>How to play</h3>
+
+<p>1. Press START GAME.</p>
+
+<p>2. Wait for the red box.</p>
+
+<p>3. Click the box quickly!</p>
+
+<p>4. Try to beat your BEST TIME.</p>
+
 
 <script>
+
+startTime=0;
+
+time=0;
+
+best=99999;
+
+attempts=0;
 
 </script>
 
