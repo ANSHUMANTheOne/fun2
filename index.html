@@ -1,77 +1,240 @@
 <html>
-
 <head>
 
 <title>Reaction time Game</title>
 
-</head>
-<body>
+<style>
 
-<h2>Reaction time Game</h2>
-
-<p>click the box when it says CLICK. The red box will show up randomly within the enclosed area!</p>
-
-<button onclick="
-
-document.getElementById('message').innerHTML='wait...';
-
-document.getElementById('box').style.display='none';
-
-setTimeout('document.getElementById(\'message\').innerHTML=\'CLICK!\'; document.getElementById(\'box\').style.display=\'block\'; document.getElementById(\'box\').style.left=Math.random()*500+\'px\'; document.getElementById(\'box\').style.top=Math.random()*250+\'px\'; startTime=new Date().getTime()', Math.random()*2000+1000);
-
-">
-
-click to start
-
-</button>
-
-<br>
-<br>
-
-<p id="message">click the button to start</p>
-
-<div id="game" style="width:600px;height:350px;border:2px solid black;position:relative;">
-
-<div id="box"
-
-style="width:60px;height:60px;background:red;position:absolute;display:none;"
-
-onclick="
-
-time=new Date().getTime()-startTime;
-
-document.getElementById('result').innerHTML='Your time: '+time+' ms';
-
-document.getElementById('box').style.display='none';
-
-if(time<best){
-
-best=time;
-
-document.getElementById('best').innerHTML='best time: '+best+' ms';
-
+body {
+    text-align:center;
+    font-family:Arial;
+    background:linear-gradient(135deg,#050505,#300000,#d00000,#050505);
+    color:white;
 }
 
+button {
+    padding:12px;
+    font-size:16px;
+    background:white;
+    border:2px solid black;
+}
+
+#game {
+    width:600px;
+    height:350px;
+    border:3px solid white;
+    margin:20px auto;
+    position:relative;
+    background:rgba(0,0,0,0.4);
+}
+
+#box {
+    width:60px;
+    height:60px;
+    background:red;
+    position:absolute;
+    display:none;
+    cursor:pointer;
+}
+
+#bigbox {
+    width:300px;
+    height:180px;
+    background:red;
+    margin:25px auto;
+    display:none;
+    font-size:35px;
+    font-weight:bold;
+    padding-top:70px;
+    box-sizing:border-box;
+    cursor:pointer;
+}
+
+.l {
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#333;
+    display:inline-block;
+    margin:8px;
+}
+
+#lights {
+    display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>REACTION TIME GAME</h1>
+
+<p id="info">click start and try to beat the driver</p>
+
+<p id="d"></p>
+<p id="dt"></p>
+
+<label>
+<input type="checkbox" id="oldmode">
+old red box mode
+</label>
+
+<br><br>
+
+<button id="start">click to start</button>
+
+<h3 id="m">ready?</h3>
+
+
+<div id="lights">
+
+<span id="l1" class="l"></span>
+<span id="l2" class="l"></span>
+<span id="l3" class="l"></span>
+
+</div>
+
+
+<div id="game">
+
+<div id="box"
+onclick="
+et=new Date().getTime();
+rt=et-st;
+
+document.getElementById('m').innerHTML='Your time: '+rt+' ms';
+document.getElementById('box').style.display='none';
+
+if(rt<ot){
+document.getElementById('r').innerHTML='YOU WIN 🏎️';
+}
+else{
+document.getElementById('r').innerHTML='you lost lol';
+}
+
+document.getElementById('or').innerHTML='Opponent: '+ot+' ms';
+
+if(best==0||rt<best){
+best=rt;
+document.getElementById('best').innerHTML='BEST TIME: '+best+' ms';
+}
 ">
 
 </div>
 
+
+<div id="bigbox"
+onclick="
+et=new Date().getTime();
+rt=et-st;
+
+document.getElementById('m').innerHTML='Your time: '+rt+' ms';
+document.getElementById('bigbox').style.display='none';
+
+if(rt<ot){
+document.getElementById('r').innerHTML='YOU WIN 🏎️';
+}
+else{
+document.getElementById('r').innerHTML='you lost lol';
+}
+
+document.getElementById('or').innerHTML='Opponent: '+ot+' ms';
+
+if(best==0||rt<best){
+best=rt;
+document.getElementById('best').innerHTML='BEST TIME: '+best+' ms';
+}
+">
+
+CLICK!
+
 </div>
 
-<p id="result">Your time:</p>
+</div>
 
-<p id="best">best time:</p>
+
+<p id="r"></p>
+<p id="or"></p>
+<p id="best">best time: none</p>
+
 
 <script>
 
-startTime=0;
+x=[
+'George Russell','Kimi Antonelli',
+'Charles Leclerc','Lewis Hamilton',
+'Lando Norris','Oscar Piastri',
+'Max Verstappen','Isack Hadjar',
+'Yuki Tsunoda','Arvid Lindblad',
+'Pierre Gasly','Franco Colapinto',
+'Esteban Ocon','Oliver Bearman',
+'Nico Hulkenberg','Gabriel Bortoleto',
+'Carlos Sainz','Alex Albon',
+'Fernando Alonso','Lance Stroll',
+'Sergio Perez','Valtteri Bottas'
+]
 
-time=0;
+q=Math.floor(Math.random()*22)
 
-best=99999;
+b=Math.floor(Math.random()*31)+290
+
+ot=b+Math.floor(Math.random()*61)-30
+
+best=0
+st=0
+
+
+document.getElementById('d').innerHTML=
+'Your opponent is '+x[q]
+
+document.getElementById('dt').innerHTML=
+'F1 benchmark: about '+b+' ms'
+
+
+document.getElementById('start').onclick=function(){
+
+document.getElementById('box').style.display='none'
+document.getElementById('bigbox').style.display='none'
+
+document.getElementById('r').innerHTML=''
+document.getElementById('or').innerHTML=''
+
+
+if(document.getElementById('oldmode').checked){
+
+document.getElementById('lights').style.display='none'
+document.getElementById('info').innerHTML='click the red box when it appears'
+document.getElementById('m').innerHTML='WAIT...'
+
+
+setTimeout("document.getElementById('m').innerHTML='CLICK!';document.getElementById('box').style.display='block';document.getElementById('box').style.left=Math.random()*500+'px';document.getElementById('box').style.top=Math.random()*280+'px';st=new Date().getTime()",Math.random()*2000+1000)
+
+}
+
+else{
+
+document.getElementById('lights').style.display='block'
+document.getElementById('info').innerHTML='watch the lights and click when it goes green'
+document.getElementById('m').innerHTML='GET READY...'
+
+document.getElementById('l1').style.background='red'
+document.getElementById('l2').style.background='#333'
+document.getElementById('l3').style.background='#333'
+
+
+setTimeout("document.getElementById('l2').style.background='yellow'",1000)
+
+setTimeout("document.getElementById('l3').style.background='orange'",2000)
+
+setTimeout("document.getElementById('l1').style.background='#333';document.getElementById('l2').style.background='#333';document.getElementById('l3').style.background='green';document.getElementById('bigbox').style.display='block';document.getElementById('m').innerHTML='CLICK!';st=new Date().getTime()",Math.random()*3000+3000)
+
+}
+
+}
 
 </script>
 
 </body>
-
 </html>
